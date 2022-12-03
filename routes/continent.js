@@ -37,7 +37,7 @@ router.route('/').get(async (req, res) => {
 
 
         results.resultInfo = await data.slice(startIndex, endIndex)
-        console.log('request hit')
+        // console.log('request hit')
         res.send(results)
     } catch (error) {
         res.send(error)

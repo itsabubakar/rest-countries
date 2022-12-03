@@ -13,7 +13,7 @@ router.route('/').get(async (req, res) => {
         let { data } = await getCountry(name)
 
 
-        console.log('request hit')
+        // console.log('request hit')
         res.send(data)
     } catch (error) {
         res.send(error)
