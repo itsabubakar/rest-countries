@@ -43,7 +43,7 @@ const Home = () => {
         }
 
         // default one that runs if no url is passed
-        const country = await axios.get(`/?page=${page}`).then((response) => {
+        const country = await axios.get(`/api/?page=${page}`).then((response) => {
             setCountries(response.data.resultInfo)
             setLoading(false)
             console.log(response)
@@ -86,7 +86,7 @@ const Home = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
-        const country = await axios(`/countries?name=${searchBox}`).then((response) => {
+        const country = await axios(`/api/countries?name=${searchBox}`).then((response) => {
             try {
                 setCountries(response.data)
                 setLoading(false)
@@ -104,7 +104,7 @@ const Home = () => {
     useEffect(() => {
         setLoading(true)
         if (value) {
-            getCountries(`/continent?page=${page}&region=${value}`)
+            getCountries(`/api/continent?page=${page}&region=${value}`)
         } else {
             getCountries()
         }
