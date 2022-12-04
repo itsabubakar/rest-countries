@@ -1,12 +1,13 @@
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom'
 import Country from './components/Country'
-import Home from "./components/Home"
+import HomePage from "./components/HomePage"
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path='/' element={<Home />} />
+        {/* <Route exact path='/' element={<Home />} /> */}
+        <Route exact path='/' element={<HomePage />} />
         <Route path='/country/:id' element={<Country />} />
       </Routes>
     </Router>

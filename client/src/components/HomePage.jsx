@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react"
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import Toggle from "./Toggle"
+import { useEffect, useRef, useState } from "react"
+import Filter from "./Filter"
 import Header from "./Header"
-import { useRef } from "react"
+import axios from "axios"
+import { Link } from "react-router-dom"
 
-const Home = () => {
-
+const HomePage = () => {
     const [countries, setCountries] = useState()
     const [loading, setLoading] = useState(false)
     const [searchBox, setSearchBox] = useState('')
@@ -15,6 +13,8 @@ const Home = () => {
 
     const [prev, setPrev] = useState(false)
     const [next, setNext] = useState(false)
+
+    const oldRef = useRef(null)
 
 
 
@@ -109,6 +109,7 @@ const Home = () => {
         setLoading(true)
         if (value) {
             getCountries(`http://localhost:5000/api/continent?page=${page}&region=${value}`)
+            oldRef.current = value.toString()
         } else {
             getCountries()
         }
@@ -116,49 +117,40 @@ const Home = () => {
 
 
     return (
-        <div className="flex justify-center h-screen">
-            <div className="max-w-xl my-20 ">
-                <div className="border-2 p-10 shadow">
-                    <Header />
-                    {loading && 'fetching'}
-                    {!loading && 'done fetching'}
-                    <div className="flex justify-between">
-                        <h2 className="text-3xl dark:text-blue-200">Countries</h2>
+        <div className="">
+            <Header />
+            <main className="flex justify-center dark:bg-secondary px-5 md:px-0 min-h-screen dark:text-white">
+                {loading && <div className="grid min-h-screen place-content-center">
+
+                    <div className="flex items-center gap-2 text-gray-500">
+                        <span className="h-10 w-10 block rounded-full border-4 border-t-blue-300 animate-spin"></span>
+                    </div>
+                </div>
+                }
+                {!loading && (
+                    <div className="max-w-3xl w-full">
+                        {/* Form and filter */}
+                        <Filter
+                            handleSubmit={handleSubmit}
+                            searchValue={searchBox}
+                            onChange={handleSearchBox}
+                            optionsValue={value}
+                            handleChange={handleChange}
+                            oldRef={oldRef.current}
+                        />
+
+                        {/* Countries */}
                         <div>
-                            <label>
-                                Filter by region
-                                <select value={value} onChange={handleChange}>
-                                    <option>all</option>
-                                    <option value="africa">Africa</option>
-                                    <option value="asia">Asia</option>
-                                    <option value="america">America</option>
-                                </select>
-                            </label>
+                            {Array.isArray(countries) && countries?.map((country) => (
+                                <Link to={`country/${country.name.common}`}><p className="text-lg">{country.name.common}</p></Link>
+                            ))}
+                            {!Array.isArray(countries) && <p>country {searchBox} not found</p>}
                         </div>
                     </div>
-                    <form onSubmit={handleSubmit}>
-                        <input type="text" className="border-2" value={searchBox} onChange={handleSearchBox} />
-                        <button type="submit">submit</button>
-                    </form>
-                    <p>The region is set to {value}</p>
-                    <div className="grid grid-cols-4 gap-x-4 gap-y-8 mt-10">
-                        {Array.isArray(countries) && countries?.map((country) => (
-                            <Link to={`country/${country.name.common}`}><p className="text-lg">{country.name.common}</p></Link>
-                        ))}
-                        {!Array.isArray(countries) && <p>country {searchBox} not found</p>}
-                    </div>
-                    <div className="flex gap-5 justify-center">
-                        <button disabled={prev} className={`${prev ? 'bg-black' : ''} text-blue-400 border ml-4 mt-4`} onClick={() => setPage(page - 1)}>prev</button>
-                        <p className="mt-4">page: {page}</p>
-                        <button disabled={next} className={`${next ? 'bg-black' : ''} text-blue-400 border ml-4 mt-4`} onClick={() => setPage(page + 1)}>next</button>
-                    </div>
-
-                </div>
-
-            </div>
-
+                )}
+            </main>
 
         </div>
     )
 }
-export default Home
+export default HomePage

@@ -15,10 +15,10 @@ app.use('/api/continent', require('./routes/continent'))
 
 //* Serve static assets in production, must be at this location of this file
 
-app.get('/', (req, res) => {
-    app.use(express.static(path.resolve(__dirname, 'client', 'dist')))
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-})
+// app.get('/', (req, res) => {
+//     app.use(express.static(path.resolve(__dirname, 'client', 'dist')))
+//     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
+// })
 
 
 
