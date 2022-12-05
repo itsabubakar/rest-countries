@@ -47,7 +47,7 @@ const HomePage = () => {
         }
 
         // default one that runs if no url is passed
-        const country = await axios.get(`http://localhost:5000/api?page=${page}`).then((response) => {
+        const country = await axios.get(`/api?page=${page}`).then((response) => {
             setCountries(response.data.resultInfo)
             setLoading(false)
 
