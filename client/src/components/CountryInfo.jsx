@@ -11,7 +11,7 @@ const CountryInfo = ({ countryDetails }) => {
                         <h2 className="text-lg font-bold mb-2">{name.common}</h2>
                         <p className="font-semibold">Population: <span className="font-normal text-gray-700 dark:text-blue-400">{population}</span> </p>
                         <p className="font-semibold">Region: <span className="font-normal dark:text-white text-gray-700">{region}</span> </p>
-                        <p className="font-semibold">Capital: <span className="font-normal dark:text-white text-gray-700">{capital[0]}</span> </p>
+                        {capital && <p className="font-semibold">Capital: <span className="font-normal dark:text-white text-gray-700">{capital[0]}</span> </p>}
                     </div>
                 </div></Link>
 
